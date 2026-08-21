@@ -195,13 +195,13 @@ function runAnalyze(){
     else{setTimeout(()=>{show('s-results');runResults()},550)}};tick();
 }
 const FINDINGS=[
-  ['🖥️','SolarVisionTest-GPU','Right-size D4as_v4 → D2as_v4 · CPU averaging 2.4%',16044],
-  ['🖥️','NikeProduction','Right-size D4s_v3 → D2s_v3 · CPU averaging 1.7%',11936],
-  ['🖥️','TrugenieProduction','Right-size D4s_v3 → D2s_v3 · CPU averaging 4.5%',11936],
-  ['🧠','REAMS','Cognitive Service · zero API calls · recommend retirement',6720],
-  ['🗄️','Production-backup-vault','Recovery Services over-retained · review scope',6355],
-  ['🖥️','ICICIBank','Right-size D4as_v5 → D2as_v5 · CPU averaging 2.0%',8907],
-  ['💿','KMIL_OsDisk (orphaned)','Unattached disk still billing · snapshot &amp; release',3535],
+  ['🖥️','ml-gpu-node-01','Right-size D4as_v4 → D2as_v4 · CPU averaging 2.4%',16044],
+  ['🖥️','app-prod-web-01','Right-size D4s_v3 → D2s_v3 · CPU averaging 1.7%',11936],
+  ['🖥️','app-prod-web-02','Right-size D4s_v3 → D2s_v3 · CPU averaging 4.5%',11936],
+  ['🧠','cognitive-svc-legacy','Cognitive Service · zero API calls · recommend retirement',6720],
+  ['🗄️','prod-backup-vault','Recovery Services over-retained · review scope',6355],
+  ['🖥️','app-prod-api-03','Right-size D4as_v5 → D2as_v5 · CPU averaging 2.0%',8907],
+  ['💿','orphaned-osdisk-07','Unattached disk still billing · snapshot &amp; release',3535],
 ];
 function animate(el,to,pre='',suf='',dur=1700){const t0=performance.now();(function s(t){const p=Math.min((t-t0)/dur,1),v=Math.round(to*(1-Math.pow(1-p,4)));el.textContent=pre+v.toLocaleString('en-IN')+suf;if(p<1)requestAnimationFrame(s)})(t0)}
 function runResults(){
