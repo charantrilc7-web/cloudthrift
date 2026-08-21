@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CloudThrift — Enterprise Azure Cost Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07110c;--bg2:#0a1712;--panel:rgba(15,28,22,.6);--panel2:rgba(10,20,16,.8);
+  --line:rgba(120,200,160,.16);--line2:rgba(120,200,160,.34);
+  --ink:#eef4ef;--muted:#98b3a5;--faint:#5f7469;
+  --green:#2f9e6b;--green2:#4fd39a;--green3:#8fe9c1;--mint:#c7f4dd;
+  --pearl:#f3f7f2;
+  --grad-green:linear-gradient(120deg,#2f9e6b,#4fd39a 55%,#2f9e6b);
+  --grad-reveal:linear-gradient(120deg,#8fe9c1,#ffffff 55%,#4fd39a);
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;min-height:100vh;overflow-x:hidden}
+canvas#bg{position:fixed;inset:0;z-index:0}
+body::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(1100px 600px at 50% -10%,rgba(79,211,154,.10),transparent 60%),radial-gradient(120% 90% at 50% 100%,transparent 60%,rgba(0,0,0,.55));}
+.wrap{position:relative;z-index:3;max-width:1060px;margin:0 auto;padding:28px clamp(18px,4vw,44px) 64px}
+.serif{font-family:var(--serif)}
+.grn{color:var(--green2)}
+
+header{display:flex;align-items:center;justify-content:space-between;padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:36px}
+.brand{display:flex;align-items:center;gap:15px}
+.logo{width:46px;height:46px;border-radius:11px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:1.4rem;color:var(--green2);background:linear-gradient(160deg,rgba(79,211,154,.14),rgba(0,0,0,.2))}
+.brand h1{font-family:var(--serif);font-size:1.4rem;font-weight:600;letter-spacing:.5px}
+.brand p{font-size:.7rem;color:var(--muted);font-weight:400;letter-spacing:1.5px;text-transform:uppercase}
+.badge{font-size:.64rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--green2);border:1px solid var(--line2);padding:8px 16px;border-radius:2px}
+
+.screen{display:none;animation:fade .7s cubic-bezier(.16,1,.3,1)}
+.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+.hero{text-align:center;padding:36px 0 30px}
+.eyebrow{font-size:.7rem;font-weight:600;letter-spacing:3.5px;text-transform:uppercase;color:var(--green);margin-bottom:22px;display:flex;align-items:center;justify-content:center;gap:16px}
+.eyebrow::before,.eyebrow::after{content:"";height:1px;width:44px;background:var(--line2)}
+.hero h2{font-family:var(--serif);font-size:clamp(2.6rem,6vw,4.4rem);font-weight:500;line-height:1.04;letter-spacing:.5px}
+.hero h2 i{font-style:italic;color:var(--green2)}
+.hero p{color:var(--muted);max-width:540px;margin:22px auto 0;font-size:1rem;font-weight:300;line-height:1.7}
+.card{background:linear-gradient(160deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:6px;padding:34px;backdrop-filter:blur(12px);box-shadow:0 30px 70px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.03)}
+.connect-card{max-width:580px;margin:14px auto 0;position:relative}
+.connect-card::before{content:"";position:absolute;inset:0;border-radius:6px;padding:1px;background:linear-gradient(160deg,rgba(79,211,154,.4),transparent 40%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.label{font-size:.66rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:20px 0 12px;display:block}
+.src-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.src{border:1px solid var(--line);border-radius:5px;padding:20px;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);background:rgba(255,255,255,.015)}
+.src:hover{border-color:var(--line2);transform:translateY(-3px);background:rgba(79,211,154,.05)}
+.src.sel{border-color:var(--green2);background:rgba(79,211,154,.08)}
+.src .i{font-size:1.4rem;margin-bottom:10px}
+.src b{display:block;font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:4px}
+.src span{font-size:.78rem;color:var(--muted);font-weight:300}
+.connect-btn{width:100%;margin-top:28px;padding:18px;border:1px solid var(--line2);border-radius:4px;background:var(--grad-green);color:#04140c;font-weight:700;font-size:.88rem;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .3s;box-shadow:0 12px 34px rgba(47,158,107,.3)}
+.connect-btn:hover{transform:translateY(-3px);box-shadow:0 18px 48px rgba(79,211,154,.45)}
+.devcode{margin-top:22px;padding:22px;border:1px solid var(--line);border-radius:5px;text-align:center;background:rgba(0,0,0,.25);display:none}
+.devcode.show{display:block;animation:fade .5s}
+.devcode .code{font-family:var(--serif);font-size:2.1rem;font-weight:600;letter-spacing:8px;color:var(--green3);margin:10px 0}
+.secure-note{display:flex;align-items:center;justify-content:center;gap:9px;margin-top:18px;font-size:.76rem;color:var(--muted);font-weight:300}
+
+.analyze{text-align:center;padding:34px 0}
+.ring{width:160px;height:160px;margin:14px auto 30px;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:2.1rem;font-weight:600;color:var(--green3)}
+.steps{max-width:480px;margin:0 auto;text-align:left}
+.step{display:flex;align-items:center;gap:16px;padding:12px 0;color:var(--faint);opacity:.5;transition:all .5s;border-bottom:1px solid rgba(120,200,160,.08)}
+.step.done{opacity:1;color:var(--muted)}
+.step.active{opacity:1;color:var(--green3)}
+.step .dot{width:26px;height:26px;border-radius:50%;border:1px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:.7rem;flex:none;font-family:var(--serif)}
+.step.done .dot{background:var(--green2);border-color:var(--green2);color:#04140c}
+
+.reveal-hero{text-align:center;padding:26px 0 12px}
+.reveal-hero .lbl{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted);font-weight:600}
+.big-save{font-family:var(--serif);font-size:clamp(3.8rem,10vw,6.5rem);font-weight:600;line-height:1;background:var(--grad-reveal);-webkit-background-clip:text;background-clip:text;color:transparent;margin:10px 0;letter-spacing:1px}
+.reveal-hero .sub{color:var(--muted);font-weight:300}
+.reveal-hero .sub b{color:var(--green3);font-weight:500}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:0;margin:32px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.kpi{padding:24px 20px;text-align:center;border-right:1px solid var(--line)}
+.kpi:last-child{border-right:none}
+.kpi .n{font-family:var(--serif);font-size:2rem;font-weight:600}
+.kpi .n.grn{color:var(--green3)}.kpi .n.wht{color:var(--pearl)}
+.kpi .l{font-size:.68rem;color:var(--muted);font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-top:7px}
+.findings h3{font-family:var(--serif);font-size:1.5rem;font-weight:600;margin:14px 0 18px}
+.frow{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;padding:17px 20px;border:1px solid var(--line);border-radius:4px;margin-bottom:11px;background:rgba(255,255,255,.012);transition:all .3s}
+.frow:hover{transform:translateX(6px);border-color:var(--line2);background:rgba(79,211,154,.04)}
+.frow .ic{width:42px;height:42px;border-radius:8px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.frow .t{font-family:var(--serif);font-weight:600;font-size:1.1rem}
+.frow .d{font-size:.8rem;color:var(--muted);margin-top:2px;font-weight:300}
+.frow .save{text-align:right;color:var(--green3);font-family:var(--serif);font-weight:600;font-size:1.2rem;white-space:nowrap}
+.frow .save small{display:block;color:var(--muted);font-weight:400;font-size:.66rem;font-family:var(--sans);letter-spacing:.5px}
+.actions{display:flex;gap:14px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+.btn{padding:15px 32px;border-radius:4px;font-weight:600;cursor:pointer;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;transition:transform .3s;border:1px solid var(--line2)}
+.btn.p{background:var(--grad-green);color:#04140c}
+.btn.g{background:transparent;color:var(--ink)}
+.btn:hover{transform:translateY(-3px)}
+.footer{text-align:center;color:var(--faint);font-size:.74rem;margin-top:44px;font-weight:300;letter-spacing:.5px;border-top:1px solid var(--line);padding-top:22px}
+.footer b{color:var(--muted);font-weight:500}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">₹</div>
+      <div><h1>CloudThrift</h1><p>Azure Cost Intelligence</p></div>
+    </div>
+    <div class="badge">Enterprise</div>
+  </header>
+
+  <section class="screen active" id="s-connect">
+    <div class="hero">
+      <img src="logo.png" alt="CloudThrift — Azure Cost Intelligence" style="max-width:min(470px,84vw);width:100%;height:auto;display:block;margin:2px auto 14px"/>
+      <div class="eyebrow">Precision cloud finance</div>
+      <h2 class="serif">Reclaim what your<br>cloud is <i>quietly</i> spending.</h2>
+      <p>A private, read-only audit of your entire Azure estate — every resource examined, every inefficiency surfaced, every rupee accounted for.</p>
+    </div>
+    <div class="card connect-card">
+      <span class="label">Billing arrangement</span>
+      <div class="src-grid">
+        <div class="src sel" data-src="ea" onclick="pickSrc(this)">
+          <div class="i">🏛️</div><b>Enterprise Agreement</b><span>Live data via Azure Cost Management</span>
+        </div>
+        <div class="src" data-src="csp" onclick="pickSrc(this)">
+          <div class="i">📜</div><b>CSP / Partner</b><span>Curated monthly cost exports</span>
+        </div>
+      </div>
+      <button class="connect-btn" onclick="startConnect()">Connect your Azure tenant</button>
+      <div class="devcode" id="devcode">
+        <div style="font-size:.78rem;color:var(--muted)">Visit <b class="grn">microsoft.com/devicelogin</b> and enter</div>
+        <div class="code">HZHK-38PHB</div>
+        <div style="font-size:.76rem;color:var(--muted)">Authenticate with your own account — your password never touches our system.</div>
+      </div>
+      <div class="secure-note">🔒 Strictly read-only · we observe, we never alter</div>
+    </div>
+  </section>
+
+  <section class="screen" id="s-analyze">
+    <div class="analyze">
+      <div class="eyebrow">Conducting your audit</div>
+      <div class="ring">
+        <svg width="160" height="160"><circle cx="80" cy="80" r="70" stroke="rgba(120,200,160,.12)" stroke-width="6" fill="none"/><circle id="ringp" cx="80" cy="80" r="70" stroke="url(#g1)" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="440" stroke-dashoffset="440"/><defs><linearGradient id="g1"><stop offset="0" stop-color="#2f9e6b"/><stop offset="1" stop-color="#8fe9c1"/></linearGradient></defs></svg>
+        <div class="pct" id="ringpct">0%</div>
+      </div>
+      <div class="steps" id="steps"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="s-results">
+    <div class="reveal-hero">
+      <div class="lbl">Recoverable, every month</div>
+      <div class="big-save serif" id="bigSave">₹0</div>
+      <div class="sub">identified across <b id="resCount">0</b> resources · 4 subscriptions</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="n wht" id="k1">₹0</div><div class="l">Monthly spend</div></div>
+      <div class="kpi"><div class="n grn" id="k2">0%</div><div class="l">Reducible</div></div>
+      <div class="kpi"><div class="n wht" id="k3">0</div><div class="l">Findings</div></div>
+      <div class="kpi"><div class="n grn">High</div><div class="l">FinOps maturity</div></div>
+    </div>
+    <div class="findings">
+      <h3 class="serif">Principal opportunities</h3>
+      <div id="findingsList"></div>
+    </div>
+    <div class="actions">
+      <button class="btn p">Download the full report</button>
+      <button class="btn g" onclick="location.reload()">Commission another audit</button>
+    </div>
+  </section>
+
+  <div class="footer">Crafted by <b>Charan T&nbsp;R</b> · CloudThrift — Enterprise Azure Cost Intelligence · <span style="opacity:.6">experience preview</span></div>
+</div>
+
+<script>
+const cv=document.getElementById('bg'),cx=cv.getContext('2d');let W,H,P=[];
+function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight;P=Array.from({length:34},()=>({x:Math.random()*W,y:Math.random()*H,s:Math.random()*.25+.05,r:Math.random()*1.6+.4,o:Math.random()*.3+.05,t:Math.random()*6}))}
+rs();addEventListener('resize',rs);
+(function loop(ts){cx.clearRect(0,0,W,H);const g=cx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#08130d');g.addColorStop(1,'#07110c');cx.fillStyle=g;cx.fillRect(0,0,W,H);
+for(const p of P){p.y-=p.s;if(p.y<-4){p.y=H+4;p.x=Math.random()*W}const tw=p.o*(0.6+0.4*Math.sin((ts||0)/1100+p.t));cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fillStyle=`rgba(120,220,170,${tw})`;cx.fill()}requestAnimationFrame(loop)})();
+
+function pickSrc(el){document.querySelectorAll('.src').forEach(s=>s.classList.remove('sel'));el.classList.add('sel')}
+const show=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function startConnect(){document.getElementById('devcode').classList.add('show');setTimeout(()=>{show('s-analyze');runAnalyze()},2700)}
+
+const STEPS=['Discovering subscriptions','Cataloguing resource inventory','Reading Azure Monitor metrics','Reconciling cost data','Merging Advisor guidance','Pricing every resource','Running the FinOps engine','Composing your report'];
+function runAnalyze(){
+  const box=document.getElementById('steps');box.innerHTML='';
+  STEPS.forEach((s,i)=>box.insertAdjacentHTML('beforeend',`<div class="step" id="st${i}"><div class="dot">${i+1}</div><div>${s}</div></div>`));
+  const ring=document.getElementById('ringp'),pct=document.getElementById('ringpct');let i=0;
+  const tick=()=>{if(i>0)document.getElementById('st'+(i-1)).classList.replace('active','done');
+    if(i<STEPS.length){document.getElementById('st'+i).classList.add('active');const p=(i+1)/STEPS.length;ring.style.strokeDashoffset=440*(1-p);pct.textContent=Math.round(p*100)+'%';i++;setTimeout(tick,640);}
+    else{setTimeout(()=>{show('s-results');runResults()},550)}};tick();
+}
+const FINDINGS=[
+  ['🖥️','SolarVisionTest-GPU','Right-size D4as_v4 → D2as_v4 · CPU averaging 2.4%',16044],
+  ['🖥️','NikeProduction','Right-size D4s_v3 → D2s_v3 · CPU averaging 1.7%',11936],
+  ['🖥️','TrugenieProduction','Right-size D4s_v3 → D2s_v3 · CPU averaging 4.5%',11936],
+  ['🧠','REAMS','Cognitive Service · zero API calls · recommend retirement',6720],
+  ['🗄️','Production-backup-vault','Recovery Services over-retained · review scope',6355],
+  ['🖥️','ICICIBank','Right-size D4as_v5 → D2as_v5 · CPU averaging 2.0%',8907],
+  ['💿','KMIL_OsDisk (orphaned)','Unattached disk still billing · snapshot &amp; release',3535],
+];
+function animate(el,to,pre='',suf='',dur=1700){const t0=performance.now();(function s(t){const p=Math.min((t-t0)/dur,1),v=Math.round(to*(1-Math.pow(1-p,4)));el.textContent=pre+v.toLocaleString('en-IN')+suf;if(p<1)requestAnimationFrame(s)})(t0)}
+function runResults(){
+  animate(document.getElementById('bigSave'),67433,'₹');
+  document.getElementById('resCount').textContent='827';
+  animate(document.getElementById('k1'),1203250,'₹');
+  animate(document.getElementById('k2'),31,'','%');
+  animate(document.getElementById('k3'),41);
+  const list=document.getElementById('findingsList');list.innerHTML='';
+  FINDINGS.forEach((f,idx)=>setTimeout(()=>{list.insertAdjacentHTML('beforeend',`<div class="frow"><div class="ic">${f[0]}</div><div><div class="t">${f[1]}</div><div class="d">${f[2]}</div></div><div class="save">₹${f[3].toLocaleString('en-IN')}<small>PER MONTH</small></div></div>`);},idx*150));
+}
+</script>
+</body>
+</html>
