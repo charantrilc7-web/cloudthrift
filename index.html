@@ -198,7 +198,10 @@ footer b{color:var(--muted);font-weight:500}
   <h2 class="sec">Your first audit is <i>free</i>.</h2>
   <p class="sub" style="margin:0 auto">We're onboarding a small cohort of Azure-driven startups. If we find nothing, you've lost 30 minutes. If we find 30%, you've found your easiest ROI this year.</p>
   <div class="card">
-    <form action="mailto:hello@spendsens-ai.com?subject=Audit%20Request" method="post" enctype="text/plain">
+    <form action="https://formsubmit.co/contact@spendsens-ai.com" method="POST">
+      <input type="hidden" name="_subject" value="New free-audit request — SpendSensai">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
       <input type="text" name="name" placeholder="Your name" required>
       <input type="email" name="email" placeholder="Work email" required>
       <input type="text" name="company" placeholder="Company & rough monthly Azure spend (optional)">
@@ -207,7 +210,7 @@ footer b{color:var(--muted);font-weight:500}
   </div>
 </section>
 
-<footer>Crafted by <b>Charan T R</b> · SpendSensai — Enterprise Azure Cost Intelligence · <a href="mailto:hello@spendsens-ai.com" class="grn" style="text-decoration:none">hello@spendsens-ai.com</a></footer>
+<footer>Crafted by <b>Charan T R</b> · SpendSensai — Enterprise Azure Cost Intelligence · <a href="mailto:contact@spendsens-ai.com" class="grn" style="text-decoration:none">contact@spendsens-ai.com</a></footer>
 </div>
 
 <script>
