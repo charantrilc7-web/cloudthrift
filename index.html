@@ -198,13 +198,14 @@ footer b{color:var(--muted);font-weight:500}
   <h2 class="sec">Your first audit is <i>free</i>.</h2>
   <p class="sub" style="margin:0 auto">We're onboarding a small cohort of Azure-driven startups. If we find nothing, you've lost 30 minutes. If we find 30%, you've found your easiest ROI this year.</p>
   <div class="card">
-    <form action="https://formsubmit.co/contact@spendsens-ai.com" method="POST">
-      <input type="hidden" name="_subject" value="New free-audit request — SpendSensai">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
+    <form action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="0a23b300-8280-4a3a-b8b9-c8db38ff1ad8">
+      <input type="hidden" name="subject" value="New free-audit request — SpendSensai">
+      <input type="hidden" name="from_name" value="SpendSensai Website">
       <input type="text" name="name" placeholder="Your name" required>
       <input type="email" name="email" placeholder="Work email" required>
       <input type="text" name="company" placeholder="Company & rough monthly Azure spend (optional)">
+      <input type="hidden" name="redirect" value="https://www.spendsens-ai.com">
       <button class="btn p" style="width:100%">Request my free audit</button>
     </form>
   </div>
