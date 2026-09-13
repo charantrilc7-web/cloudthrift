@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy &amp; Data Handling — SpendSensai</title>
+<meta name="description" content="How SpendSensai accesses, processes, and protects your Azure cost data. Read-only, transient, never sold or used to train models.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07110c;--panel:rgba(15,28,22,.6);--line:rgba(120,200,160,.16);--line2:rgba(120,200,160,.34);
+--ink:#eef4ef;--muted:#98b3a5;--faint:#5f7469;--green2:#4fd39a;--green3:#8fe9c1;
+--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.75}
+.wrap{max-width:760px;margin:0 auto;padding:44px clamp(18px,4vw,44px) 80px}
+a{color:var(--green2)}
+.back{font-size:.78rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;color:var(--muted)}
+.back:hover{color:var(--green3)}
+h1{font-family:var(--serif);font-size:clamp(2rem,5vw,2.8rem);font-weight:600;margin:28px 0 6px}
+.eff{color:var(--faint);font-size:.82rem;margin-bottom:34px}
+h2{font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--green3);margin:34px 0 10px}
+p,li{color:var(--muted);font-size:.94rem}
+ul{margin:10px 0 10px 22px}li{margin-bottom:8px}
+b{color:var(--ink);font-weight:600}
+.box{border:1px solid var(--line);border-left:3px solid var(--green2);border-radius:6px;padding:18px 22px;background:rgba(255,255,255,.012);margin:18px 0}
+footer{margin-top:50px;padding-top:22px;border-top:1px solid var(--line);color:var(--faint);font-size:.76rem;line-height:1.9}
+footer a{color:var(--muted);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="/" class="back">← Back to SpendSensai</a>
+  <h1>Privacy &amp; Data Handling</h1>
+  <div class="eff">Effective 13 September 2026 · SpendSensai, an independent FinOps venture based in India</div>
+
+  <div class="box">
+    <b>The short version.</b> SpendSensai reads only your Azure <b>cost and utilization metadata</b> through a read-only role you grant and can revoke at any time. We never touch the contents of your resources, never store your credentials, and <b>never sell, share, or use your data to train any model</b>. We keep only what's needed to produce your report, and delete it on request.
+  </div>
+
+  <h2>Who we are</h2>
+  <p>SpendSensai ("we", "us") is an independent FinOps venture based in India that provides read-only Azure cost audits. We are not a registered corporate entity at this time; we operate transparently and you can reach a real person at <a href="mailto:contact@spendsens-ai.com">contact@spendsens-ai.com</a> for any request about your data. We are not affiliated with, or endorsed by, Microsoft.</p>
+
+  <h2>What we access</h2>
+  <p>When you engage us for an audit, you grant a scoped Azure <b>Reader</b> role to a service principal or account we specify. That role lets us read:</p>
+  <ul>
+    <li>Billing and cost-management line items (spend by resource, service, and subscription);</li>
+    <li>Resource inventory and configuration metadata (types, SKUs, tags, regions);</li>
+    <li>Utilization metrics exposed by Azure Monitor (e.g. CPU, memory, disk activity).</li>
+  </ul>
+
+  <h2>What we do NOT access</h2>
+  <ul>
+    <li>The <b>contents</b> of your databases, storage accounts, code, or key vault secrets;</li>
+    <li>Your Microsoft passwords or login credentials — authentication happens directly with Microsoft and we never see or store them;</li>
+    <li>Any ability to create, modify, or delete resources — the Reader role does not permit it.</li>
+  </ul>
+
+  <h2>Information you give us directly</h2>
+  <p>When you submit the audit-request form, we collect your name, email, and any company/spend detail you choose to share. We use this only to contact you about your audit. It is handled by our form provider (Web3Forms) and delivered to us by email.</p>
+
+  <h2>How we process and protect it</h2>
+  <ul>
+    <li><b>Transient processing.</b> Cost and utilization data is analyzed to generate your report and is not retained beyond what's needed to prepare and discuss it with you.</li>
+    <li><b>No training, no resale.</b> We never use your data to train machine-learning models, and we never sell or rent it to anyone.</li>
+    <li><b>AI assistant.</b> Where our optional "Ask SpendSensai" assistant is used, questions and your report context are processed through Azure OpenAI within a private Azure environment; that data is <b>not</b> used by Microsoft or OpenAI to train their models.</li>
+    <li><b>Deletion.</b> You can ask us to delete your audit data and contact details at any time and we will do so promptly.</li>
+    <li><b>Revoking access.</b> You can remove the Reader role assignment in the Azure portal whenever you wish; our access ends immediately.</li>
+  </ul>
+
+  <h2>Sharing</h2>
+  <p>We do not share your data with third parties except the minimal service providers needed to operate (e.g. our form and hosting providers), and only to the extent required to deliver the service. We may disclose information if legally compelled to do so.</p>
+
+  <h2>Your choices</h2>
+  <p>You may request access to, correction of, or deletion of your data, and you may withdraw from an audit at any time. Email <a href="mailto:contact@spendsens-ai.com">contact@spendsens-ai.com</a> and we'll act on it.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>We may update this policy as the service evolves. Material changes will be reflected here with a new effective date.</p>
+
+  <footer>
+    <b>SpendSensai</b> — an independent FinOps venture based in India<br>
+    <a href="/">spendsens-ai.com</a> · <a href="mailto:contact@spendsens-ai.com">contact@spendsens-ai.com</a><br>
+    <span style="opacity:.7">Not affiliated with or endorsed by Microsoft. Azure is a trademark of Microsoft Corporation.</span>
+  </footer>
+</div>
+</body>
+</html>
