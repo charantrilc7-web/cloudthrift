@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where your Azure money actually goes — SpendSensai Blog</title>
+<meta name="description" content="In most Azure environments, 20–40% of the monthly spend is pure waste. Here's exactly where it goes — oversized VMs, orphaned disks, over-retained backups — and why nobody notices.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07110c;--panel:rgba(15,28,22,.6);--line:rgba(120,200,160,.16);--line2:rgba(120,200,160,.34);
+--ink:#eef4ef;--mut:#98b3a5;--faint:#5f7469;--green:#2f9e6b;--green2:#4fd39a;--green3:#8fe9c1;
+--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.75}
+.wrap{max-width:760px;margin:0 auto;padding:0 clamp(18px,5vw,32px) 80px}
+nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0;border-bottom:1px solid var(--line);margin-bottom:44px}
+nav .brand{display:flex;align-items:center;gap:12px}
+nav .brand img{height:38px}
+nav a{color:var(--mut);text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;transition:color .3s}
+nav a:hover{color:var(--green3)}
+.navlinks{display:flex;gap:26px;align-items:center}
+.kicker{font-size:.7rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:16px}
+h1{font-family:var(--serif);font-size:clamp(2rem,5vw,3rem);font-weight:600;line-height:1.1;letter-spacing:.5px;margin-bottom:18px}
+.meta{font-size:.82rem;color:var(--faint);margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+article p{font-size:1.04rem;color:#d7e2db;margin-bottom:22px}
+article h2{font-family:var(--serif);font-size:1.5rem;font-weight:600;color:var(--ink);margin:38px 0 10px}
+article strong{color:var(--green3);font-weight:600}
+.cta{margin-top:48px;background:linear-gradient(160deg,var(--panel),rgba(10,20,16,.8));border:1px solid var(--line2);border-radius:8px;padding:32px;text-align:center}
+.cta h3{font-family:var(--serif);font-size:1.5rem;font-weight:600;margin-bottom:10px}
+.cta p{color:var(--mut);font-size:.95rem;margin-bottom:20px}
+.btn{display:inline-block;background:linear-gradient(120deg,#2f9e6b,#4fd39a 55%,#2f9e6b);color:#04140c;font-weight:700;font-size:.85rem;letter-spacing:1.5px;text-transform:uppercase;padding:15px 30px;border-radius:5px;text-decoration:none;transition:transform .3s}
+.btn:hover{transform:translateY(-2px)}
+footer{text-align:center;color:var(--faint);font-size:.76rem;margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
+footer a{color:var(--green2);text-decoration:none}
+.back{display:inline-block;margin-top:40px;color:var(--mut);text-decoration:none;font-size:.85rem}
+.back:hover{color:var(--green3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="brand" href="/"><img src="/logo.png" alt="SpendSensai"></a>
+    <div class="navlinks">
+      <a href="/">Home</a>
+      <a href="/blog/">Blog</a>
+      <a href="/#contact">Free audit</a>
+    </div>
+  </nav>
+
+  <div class="kicker">FinOps · Azure Cost</div>
+  <h1>Where your Azure money actually goes — and why nobody notices</h1>
+  <div class="meta">By SpendSensai · September 2026 · 4 min read</div>
+
+  <article>
+    <p>Most companies don't overspend on Azure because they're careless. They overspend because cloud cost is <em>invisible</em> until the bill arrives — and by then the money's already gone.</p>
+
+    <p>Here's the uncomfortable part: in most Azure environments, <strong>20–40% of the monthly spend is pure waste.</strong> Not "could be optimised someday" — waste, today, that nobody would miss if it vanished.</p>
+
+    <p>So where does it actually go?</p>
+
+    <h2>1. Machines that are too big</h2>
+    <p>Someone spun up a VM "to be safe," picked a size two notches bigger than needed, and moved on. Now it runs at 3% CPU, 24 hours a day, billing full price. Multiply that across an estate and it's the single biggest leak we see.</p>
+
+    <h2>2. Disks nobody deleted</h2>
+    <p>You delete a VM, but its disk stays behind — unattached, doing nothing, still billing every hour. These "orphaned" disks pile up quietly for months.</p>
+
+    <h2>3. Backups kept forever</h2>
+    <p>Backup retention gets set once, generously, and never revisited. You end up paying to store snapshots from a year ago that no one will ever restore.</p>
+
+    <h2>4. Full price when you could commit</h2>
+    <p>If a workload runs steady-state, paying pay-as-you-go is like renting the same hotel room every night for a year instead of just signing a lease. Reserved capacity can cut that 30–60%.</p>
+
+    <h2>5. Things left running that shouldn't be</h2>
+    <p>Dev environments that don't need to run at night. Test resources from a project that shipped six months ago. Cognitive services with zero API calls, still on the meter.</p>
+
+    <h2>Why does nobody catch it?</h2>
+    <p>Because it's nobody's job. Engineers are shipping features. Finance sees one big number. And Azure's own tools show you <em>data</em>, not <em>decisions</em> — a wall of metrics, not a prioritised list of "cut this, save that."</p>
+
+    <p>The fix isn't complicated. It's just that someone has to actually look — resource by resource — and turn the mess into a plan. That's the entire job.</p>
+  </article>
+
+  <div class="cta">
+    <h3>Curious what your Azure bill is hiding?</h3>
+    <p>We run a free, read-only audit of your Azure estate and show you exactly where the money's going — and what each fix is worth. No changes to your environment. You just get the list.</p>
+    <a class="btn" href="/#contact">Book your free audit</a>
+  </div>
+
+  <a class="back" href="/blog/">← Back to all posts</a>
+
+  <footer>
+    SpendSensai — Azure Cost Intelligence · <a href="mailto:contact@spendsens-ai.com">contact@spendsens-ai.com</a>
+  </footer>
+</div>
+</body>
+</html>
